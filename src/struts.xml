@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="all" extends="struts-default">
+		<interceptors>
+			<!-- 定义权限控制拦截器 -->
+			<interceptor name="authority" class="com.sweb.acion.loginInterceptor" />
+			<!-- 定义一个包含权限控制的拦截器栈 -->
+			<interceptor-stack name="mydefault">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="authority" />
+			</interceptor-stack>
+		</interceptors>
+		<!-- 定义默认拦截器 -->
+		<default-interceptor-ref name="mydefault" />
+		<!-- 定义全局处理结果 -->
+		<global-results>
+			<!-- 逻辑名为login的结果，映射到/login.jsp页面 -->
+			<result name="login">/login/nologin.jsp</result>
+		</global-results>
+	</package>
+
+	<package name="default" namespace="/" extends="all">
+		<action name="login" method="loginF" class="com.sweb.acion.loginAction">
+			<result name="success">jsuccess.jsp</result>
+		</action>
+
+	</package>
+
+	<package name="logins" extends="struts-default" namespace="/">
+		<action name="users" class="com.sweb.acion.usersAction">
+			<result name="success">users.jsp</result>
+		</action>
+	</package>
+</struts>
